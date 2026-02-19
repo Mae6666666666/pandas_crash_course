@@ -14,7 +14,7 @@
 
 import pandas as pd
 
-df = pd.read_csv("../data/04_shop_sales.csv")
+df = pd.read_csv("data/04_shop_sales.csv")
 
 
 # ---- Q1 ----
@@ -22,21 +22,21 @@ df = pd.read_csv("../data/04_shop_sales.csv")
 # Can you spot anything that looks wrong?
 
 # YOUR CODE HERE
-
+# print(df)
 
 # ---- Q2 ----
 # Use .isnull().sum() to find out how many missing values
 # each column has. Print the result.
 
 # YOUR CODE HERE
-
+# print(df.isnull().sum())
 
 # ---- Q3 ----
 # Print the data types. Notice that "date" is still "object"
 # (text). We need to convert it.
 
 # YOUR CODE HERE
-
+# print(df.dtypes)
 
 # ---- Q4 ----
 # Convert the "date" column to datetime using errors="coerce".
@@ -45,8 +45,9 @@ df = pd.read_csv("../data/04_shop_sales.csv")
 # Then print df["date"] to see which row became NaT.
 
 # YOUR CODE HERE
-
-
+my_format = "%d/%m/%Y"
+df["date"] = pd.to_datetime(df["date"], format=my_format, errors="coerce")
+print(df["date"])
 # ---- Q5 ----
 # Now use .isnull().sum() again. You should see that "date"
 # now has 1 missing value (the bad date we converted to NaT).
@@ -61,7 +62,9 @@ df = pd.read_csv("../data/04_shop_sales.csv")
 # (Compare to the original df.shape)
 
 # YOUR CODE HERE
-
+df_clean = df.dropna()
+# print(df_clean)
+# print(df_clean.shape)
 
 # ---- Q7 ----
 # Alternative approach: instead of dropping ALL rows with
@@ -71,7 +74,8 @@ df = pd.read_csv("../data/04_shop_sales.csv")
 # Print the shape.
 
 # YOUR CODE HERE
-
+df_less_clean = df.dropna(subset=["qty_sold"])
+print(df_less_clean.shape)
 
 # ---- Q8 ----
 # When you filter a DataFrame and then want to change it,
@@ -81,3 +85,5 @@ df = pd.read_csv("../data/04_shop_sales.csv")
 # Store it in a variable called computing_items and print it.
 
 # YOUR CODE HERE
+computing_items = df_clean.loc[df["cost_price"] =="Computing"].copy()
+print(computing_items)

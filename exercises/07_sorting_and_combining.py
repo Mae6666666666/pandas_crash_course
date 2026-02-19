@@ -9,7 +9,7 @@
 
 import pandas as pd
 
-df = pd.read_csv("../data/05_electronics.csv")
+df = pd.read_csv("data/05_electronics.csv")
 
 
 # ---- Q1 ----
@@ -17,14 +17,14 @@ df = pd.read_csv("../data/05_electronics.csv")
 # Print the first 5 rows.
 
 # YOUR CODE HERE
-
+# print(df.sort_values("qty_sold").head())
 
 # ---- Q2 ----
 # Sort by qty_sold from LARGEST to smallest.
 # Print the first 5 rows.
 
 # YOUR CODE HERE
-
+# print(df.sort_values("qty_sold", ascending=False).head())
 
 # ---- Q3 ----
 # Sort by category first, then by qty_sold (largest first).
@@ -34,7 +34,7 @@ df = pd.read_csv("../data/05_electronics.csv")
 #  df.sort_values(["col1", "col2"], ascending=[True, False]) )
 
 # YOUR CODE HERE
-
+# print(df.sort_values(["category", "qty_sold"]))
 
 # ---- Q4 ----
 # Chain it together: create revenue and profit columns, group
@@ -47,7 +47,10 @@ df = pd.read_csv("../data/05_electronics.csv")
 # Print the final result.
 
 # YOUR CODE HERE
-
+df["revenue"] = (df["sell_price"] * df["qty_sold"]).sum()
+df["profit"] = (df["revenue"] - (df["cost_price"] * df["qty_sold"])).sum()
+grouped_values = df.groupby("category")
+# print(df.sort_values("profit", ascending=False))
 
 # ---- Q5 ----
 # Which single product_id had the highest total qty_sold
@@ -59,7 +62,8 @@ df = pd.read_csv("../data/05_electronics.csv")
 # (Hint: after sort, use .head(1) to get just the top row)
 
 # YOUR CODE HERE
-
+df.groupby("product_id")["qty_sold"].sum()
+# print(df.sort_values("qty_sold",  ascending=False).head(1))
 
 # ---- Q6 ----
 # Convert the date column to datetime, then sort the whole
@@ -67,3 +71,6 @@ df = pd.read_csv("../data/05_electronics.csv")
 # Print the first 10 rows to confirm it is in date order.
 
 # YOUR CODE HERE
+my_format = "%d/%m/%Y"
+pd.to_datetime(df["date"], format=my_format)
+print(df.sort_values("date").head(10))

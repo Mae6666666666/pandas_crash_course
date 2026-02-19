@@ -66,7 +66,7 @@ filter2 = second_left < second_right
 # combines the middle point to get between 10/01/25 and 20/01/25
 merged_filters = filter1 & filter2
 # locate the merged filter and print it out
-print(df.loc[merged_filters])
+# print(df.loc[merged_filters])
 
 
 
@@ -77,6 +77,17 @@ print(df.loc[merged_filters])
 # (Hint: you need the date range filter AND a customer filter)
 
 # YOUR CODE HERE
+
+first_sam_left = pd.to_datetime(df["date"], format=my_format)
+first_sam_right = pd.to_datetime("10/01/2025", format=my_format)
+second_sam_left = pd.to_datetime(df["date"], format=my_format)
+second_sam_right = pd.to_datetime("20/01/2025", format=my_format)  
+filter1_sam = first_sam_left > first_sam_right
+filter2_sam = second_sam_left < second_sam_right
+merging_sam = filter1_sam & filter2_sam & (df["customer"] == "Sam")
+print(df.loc[merging_sam])
+
+
 
 
 # ---- Q6 ----
